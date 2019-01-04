@@ -28,7 +28,7 @@ from <http://www.citrix.com/downloads/citrix-hypervisor/>.
 
 ## SDK Languages
 
-The extracted contents of the SDK ZIP file are in the `XenServer-SDK`
+The extracted contents of the SDK ZIP file are in the `CitrixHypervisor-SDK`
 directory. The following is an overview of its structure. Where
 necessary, subdirectories have their own individual README files.
 
@@ -36,7 +36,7 @@ necessary, subdirectories have their own individual README files.
 >     the SDK languages. If you intend to use one language, it's
 >     advisable to browse the sample code available in the others as well.
 
-The top level of the XenServer-SDK directory includes the Citrix Hypervisor Management API
+The top level of the CitrixHypervisor-SDK directory includes the Citrix Hypervisor Management API
 Reference document. This document describes in more detail the API semantics and
 the wire protocol of the RPC messages.
 
@@ -45,7 +45,7 @@ The format supported by each of the SDK languages is specified in the following 
 
 ### C
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to C programmers:
 
 -  `libxenserver`
@@ -106,7 +106,7 @@ The following simple examples are included with the C SDK:
 
 ### C &#35;
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to C\# programmers:
 
 -  `XenServer.NET`
@@ -152,7 +152,7 @@ For server versions prior to XenServer 7.3, the C# SDK uses the XML-RPC protocol
 **Examples**:
 
 The following examples are included with the C\# SDK in the directory
-`XenServer-SDK/XenServer.NET/samples` as separate projects of the
+`CitrixHypervisor-SDK/XenServer.NET/samples` as separate projects of the
 `XenSdkSample.sln` solution:
 
 -  `GetVariousRecords`: logs to a Citrix Hypervisor server and displays
@@ -164,7 +164,7 @@ The following examples are included with the C\# SDK in the directory
 
 ### Java
 
-The XenServer-SDK directory contains the following folders that are relevant to Java programmers:
+The CitrixHypervisor-SDK directory contains the following folders that are relevant to Java programmers:
 
 -  `XenServerJava`
 
@@ -212,7 +212,7 @@ These jars are needed for the `xenserver.jar` to be able to communicate with the
 
 **Examples**:
 
-Running the main file `XenServer-SDK/XenServerJava/samples/RunTests.java` runs a series of examples included in the same directory:
+Running the main file `CitrixHypervisor-SDK/XenServerJava/samples/RunTests.java` runs a series of examples included in the same directory:
 
 -  `AddNetwork`: Adds a new internal network not attached to any NICs;
 
@@ -240,7 +240,7 @@ Running the main file `XenServer-SDK/XenServerJava/samples/RunTests.java` runs a
 
 ### PowerShell
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to PowerShell users:
 
 -  `XenServerPowerShell`
@@ -286,7 +286,7 @@ The PowerShell module supports the same RPC protocols as the C# SDK.
 **Examples**:
 
 The following example scripts are included with the PowerShell module
-in the directory `XenServer-SDK/XenServerPowerShell/samples`:
+in the directory `CitrixHypervisor-SDK/XenServerPowerShell/samples`:
 
 -  `AutomatedTestCore.ps1`: Shows how to log into a
     Citrix Hypervisor server, create a storage repository and a VM, and then
@@ -298,7 +298,7 @@ in the directory `XenServer-SDK/XenServerPowerShell/samples`:
 
 ### Python
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to Python developers:
 
 -  `XenServerPython`
