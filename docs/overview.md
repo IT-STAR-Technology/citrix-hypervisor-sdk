@@ -1,10 +1,10 @@
-# Overview of the XenServer API
+# Overview of the Citrix Hypervisor Management API
 
-This chapter introduces the XenServer API (after here referred to
+This chapter introduces the Citrix Hypervisor Management API (after here referred to
 as the "API") and its associated object model. The API has the following
 key features:
 
--  **Management of all aspects of the XenServer Host.**
+-  **Management of all aspects of the Citrix Hypervisor server.**
 
     The API allows you to manage VMs, storage, networking, host
     configuration, and pools. Performance and status metrics can also be
@@ -14,7 +14,7 @@ key features:
 
     The results of all side-effecting operations (for example: object creation,
     deletion, and parameter changes) are persisted in a server-side
-    database that is managed by XenServer.
+    database that is managed by Citrix Hypervisor.
 
 -  **An event mechanism.**
 
@@ -48,28 +48,25 @@ key features:
     protocol. Further, all the API calls execute in the context of a
     login session generated through user name and password validation at
     the server. This provides secure and authenticated access to the
-    XenServer installation.
+    Citrix Hypervisor installation.
 
-## XenServer API Deprecation Policy
+## Citrix Hypervisor Management API Deprecation Policy
 
 Items that will be removed in a future release are marked as deprecated.
 
-By default, Citrix will continue to support deprecated APIs and product functionality up to and including the next XenServer Long Term Service Release (LTSR). Deprecated items will usually be removed in a Current Release following that LTSR.
+By default, Citrix continues to support deprecated APIs and product functionality up to and including the next Citrix Hypervisor Long Term Service Release (LTSR). Deprecated items are usually removed in a Current Release following that LTSR.
 
-In exceptional cases, an item might be deprecated and removed before the next LTSR. For example, a change might be required to improve security. If this happens, Citrix will make customers aware of the change to the API or the product functionality.
-
+In exceptional cases, an item might be deprecated and removed before the next LTSR. For example, a change might be required to improve security. If this happens, Citrix makes customers aware of the change to the API or the product functionality.
 
 This deprecation policy applies only to APIs and functionality that are documented at the following locations:
 
--  [Citrix Product Documentation](http://docs.citrix.com/en-us/xenserver.html)
+-  [Citrix Product Documentation](http://docs.citrix.com/en-us/citrix-hypervisor.html)
 -  [Citrix Developer Documentation](http://developer-docs.citrix.com)
-
-
 
 ## Getting Started with the API
 
 Let's start our tour of the API by describing the calls required to
-create a VM on a XenServer installation, and take it through a
+create a VM on a Citrix Hypervisor installation, and take it through a
 start/suspend/resume/stop cycle. This section does not reference code
 in any specific language. At this stage we just describe the informal
 sequence of RPC invocations that do our "install and start"
@@ -86,9 +83,9 @@ task.
 The first step is to call `Session.login_with_password(username,  password, client_API_version, originator)`. The API is session based, so before you can make other calls you must authenticate with the server. Assuming the user name and password are authenticated correctly, the result of this
 call is a *session reference*. Subsequent API calls take the session
 reference as a parameter. In this way, we ensure that only API users who
-are suitably authorized can perform operations on a XenServer
+are suitably authorized can perform operations on a Citrix Hypervisor
 installation. You can continue to use the same session for any number of
-API calls. When you have finished the session, 
+API calls. When you have finished the session,
 recommends that you call `Session.logout(session)` to clean up: see
 later.
 
@@ -97,7 +94,7 @@ later.
 The next step is to query the list of "templates" on the host. Templates
 are specially marked VM objects that specify suitable default parameters
 for various supported guest types. (If you want to see a quick
-enumeration of the templates on a XenServer installation for
+enumeration of the templates on a Citrix Hypervisor installation for
 yourself, you can execute the `xe template-list` CLI command.) To
 get a list of templates from the API, find the VM objects on
 the server that have their `is_a_template` field set to true. One way to
@@ -119,7 +116,7 @@ find the VMs that have their `is_a_template` value set to `true`. At this
 stage, let's assume that our example application further iterates through
 the template objects and remembers the reference corresponding to the
 one that has its "`name_label`" set to "Debian Etch 4.0" (one of the
-default Linux templates supplied with XenServer).
+default Linux templates supplied with Citrix Hypervisor).
 
 ### Installing the VM based on a template
 
@@ -164,7 +161,7 @@ is trivial to take it through a few lifecycle operations:
 
 ### Logging out
 
-When an application is finished interacting with a XenServer Host,
+When an application is finished interacting with a Citrix Hypervisor server,
 it is good practice to call `Session.logout(session)`. This call invalidates
 the session reference (so it cannot be used in subsequent API calls) and
 deallocates server-side memory used to store the session object.
@@ -189,8 +186,8 @@ server, the best policy is:
 
 If a poorly written client leaks sessions or otherwise exceeds the
 limit, then as long as the client uses an appropriate `originator`
-argument, it is easily identifiable from the XenServer logs.
-XenServer destroys the longest-idle sessions of the rogue
+argument, it is easily identifiable from the Citrix Hypervisor logs.
+Citrix Hypervisor destroys the longest-idle sessions of the rogue
 client only. This behavior might cause problems for that client but not for other
 clients. If the misbehaving client doesn't specify an `originator`, it is harder to identify and causes
 the premature destruction of other client sessions that also didn't
@@ -199,14 +196,14 @@ specify an `originator`
 ### Install and start example: summary
 
 We have seen how the API can be used to install a VM from a
-XenServer template and perform various lifecycle operations on
+Citrix Hypervisor template and perform various lifecycle operations on
 it. Note that the number of calls we had to make to
 affect these operations was small:
 
 -  One call to acquire a session: `Session.login_with_password()`
 
 -  One call to query the VM (and template) objects present on the
-    XenServer installation: `VM.get_all_records()`. Recall that we
+    Citrix Hypervisor installation: `VM.get_all_records()`. Recall that we
     used the information returned from this call to select a suitable
     template to install from.
 
@@ -218,33 +215,27 @@ affect these operations was small:
 
 -  And then one call to log out `Session.logout()`
 
-Although the API as a whole is
-complex and fully featured, common tasks (such as VM
-lifecycle operations) are straightforward, requiring only a few simple API calls.
-Keep this fact in mind as you study the next section which might, on first reading,
-appear a little daunting!
+Although the API as a whole is complex and fully featured, common tasks (such as VM lifecycle operations) are straightforward, requiring only a few simple API calls.
+Keep this fact in mind as you study the next section which might, on first reading, appear a little daunting!
 
 ## Object Model Overview
 
 This section gives a high-level overview of the object model of the API.
-For a more detailed description of the parameters and methods of each class, see the XenServer API Reference document.
+For a more detailed description of the parameters and methods of each class, see the Citrix Hypervisor Management API reference.
 
-We start by giving a brief outline of some of the core classes that make
-up the API. (Don't worry if these definitions seem abstract in
-their initial presentation. The textual description in the following
-sections, and the code-sample walk through in the next Chapter
-make these concepts concrete.)
+We start by giving a brief outline of some of the core classes that make up the API.
+(Don't worry if these definitions seem abstract in their initial presentation. The textual description in the following sections, and the code-sample walk through in the next section make these concepts concrete.)
 
 --------------------------
 
 ### VM
 
-A VM object represents a particular virtual machine instance on a XenServer Host or Resource Pool. Example
+A VM object represents a particular virtual machine instance on a Citrix Hypervisor server or Resource Pool. Example
 methods include `start`, `suspend`, `pool_migrate`; example parameters include `power_state`, `memory_static_max`, and `name_label`. (In the previous section we saw how the VM class is used to represent both templates and regular VMs)
 
 ### Host
 
-A host object represents a physical host in a XenServer pool. Example methods include `reboot` and `shutdown`. Example parameters include `software_version`, `hostname`, and \[IP\]`address`.
+A host object represents a physical host in a Citrix Hypervisor pool. Example methods include `reboot` and `shutdown`. Example parameters include `software_version`, `hostname`, and \[IP\]`address`.
 
 ### VDI
 
@@ -260,7 +251,7 @@ represent the newly created disks. These VDIs were attached to the VM object.
 An SR (*Storage Repository*) aggregates a collection of VDIs, It encapsulates the properties of physical
 storage on which the VDIs' bits reside. Example parameters include:
 
--  `type` which determines the storage-specific driver a XenServer installation uses to read/write the SR's VDIs
+-  `type` which determines the storage-specific driver a Citrix Hypervisor installation uses to read/write the SR's VDIs
 -  `physical_utilisation`
 
 Example methods include
@@ -270,8 +261,8 @@ Example methods include
 
 ### Network
 
-A network object represents a layer-2 network that exists in the environment in which the XenServer Host
-instance lives. Since XenServer does not manage networks directly, network is a lightweight class that models
+A network object represents a layer-2 network that exists in the environment in which the Citrix Hypervisor server
+instance lives. Since Citrix Hypervisor does not manage networks directly, network is a lightweight class that models
  physical and virtual network topology. VM and Host objects that are *attached* to a particular
 Network object can send network packets to each other. The objects are attached through VIF and PIF instances. For more information, see the following section.
 
@@ -349,7 +340,7 @@ include:
 
 --------------------------
 
-![Common API Classes](images/dia_class_overview.png)
+![Common API Classes](./media/dia_class_overview.png)
 
 This figure presents a graphical overview of
 the API classes involved in managing VMs, Hosts, Storage, and Networking.
@@ -369,7 +360,7 @@ it to a running VM. We assume that we already have a
 running VM, and we know its corresponding API object reference. For example, we
 might have created this VM using the procedure described in the previous
 section and had the server return its reference to us.
-We also assume that we have authenticated with the XenServer installation
+We also assume that we have authenticated with the Citrix Hypervisor installation
 and have a corresponding `session reference`. Indeed in the rest of this
 chapter, for the sake of brevity, does not mention sessions
 altogether.
@@ -390,7 +381,7 @@ The `VDI.create` call takes a number of parameters, including:
     attach a VDI with its `read_only` field set to true in a read/write fashion results
     in error.)
 
-Invoking the `VDI.create` call causes the XenServer installation to
+Invoking the `VDI.create` call causes the Citrix Hypervisor installation to
 create a blank disk image on physical storage, create an associated VDI
 object (the datamodel instance that refers to the disk image on physical
 storage) and return a reference to this newly created VDI object.
@@ -411,7 +402,7 @@ the SR type through the API using the `SR.get_type()` call.)
 
 So far we have a running VM (that we assumed the existence of at the
 start of this example) and a fresh VDI that we just created. Right now,
-these are both independent objects that exist on the XenServer
+these are both independent objects that exist on the Citrix Hypervisor
 Host, but there is nothing linking them together. So our next step is to
 create such a link, associating the VDI with our VM.
 
@@ -436,7 +427,7 @@ VBD (*Virtual Block Device*). To create our VBD we invoke the
     more meaning for Windows VMs than it does for Linux VMs, but we will
     not explore this level of detail in this chapter.)
 
-Invoking `VBD.create` makes a VBD object on the XenServer
+Invoking `VBD.create` makes a VBD object on the Citrix Hypervisor
 installation and returns its object reference. However, this call in
 itself does not have any side-effects on the running VM (that is, if you
 go and look inside the running VM you will see that the block device has
@@ -444,7 +435,7 @@ not been created). The fact that the VBD object exists but that the
 block device in the guest is not active, is reflected by the fact that
 the VBD object's `currently_attached` field is set to false.
 
-![A VM object with 2 associated VDIs](images/dia_vm_sr.png)
+![A VM object with 2 associated VDIs](./media/dia_vm_sr.png)
 
 For expository purposes, this figure presents
 a graphical example that shows the relationship between VMs, VBDs, VDIs
@@ -455,7 +446,7 @@ VDIs; and the VDIs reside within the same SR.
 #### Hotplugging the VBD
 
 If we rebooted the VM at this stage then, after rebooting, the block
-device corresponding to the VBD would appear: on boot, XenServer
+device corresponding to the VBD would appear: on boot, Citrix Hypervisor
 queries all VBDs of a VM and actively attaches each of the corresponding
 VDIs.
 
@@ -520,9 +511,9 @@ as VHD files); and let's say that we want a host, *h*, to be able to
 access *s*. In this case we invoke `PBD.create()` specifying host *h*, SR *s*, and a value for the
 *device\_config* parameter that is the following map:
 
-`("server", "my_nfs_server.example.com"), ("serverpath", "/scratch/mysrs/sr1")
-            `
-This tells the XenServer Host that SR *s* is accessible on host
+`("server", "my_nfs_server.example.com"), ("serverpath", "/scratch/mysrs/sr1")`
+
+This tells the Citrix Hypervisor server that SR *s* is accessible on host
 *h*, and further that to access SR *s*, the host needs to mount the
 directory `/scratch/mysrs/sr1` on the NFS server named `my_nfs_server.example.com`.
 
@@ -545,8 +536,8 @@ host corresponding to host network device `eth0`.
 
 ## Exporting and Importing VMs
 
-VMs can be exported to a file and later imported to any XenServer
-host. The export protocol is a simple HTTP(S) GET, which should be
+VMs can be exported to a file and later imported to any Citrix Hypervisor
+server. The export protocol is a simple HTTP(S) GET, which should be
 performed on the master if the VM is on a pool member. Authorization is
 either standard HTTP basic authentication, or if a session has already
 been obtained, this can be used. The VM to export is specified either by
@@ -565,7 +556,7 @@ The following arguments are passed on the command line:
 
 For example, using the Linux command line tool cURL:
 
-    curl http://root:foo@myxenserver1/export?uuid=<vm_uuid> -o <exportfile>
+    curl http://root:foo@myhypervisor1/export?uuid=<vm_uuid> -o <exportfile>
 
 This command will export the specified VM to the file `exportfile`.
 
@@ -583,7 +574,7 @@ VM. There are some additional parameters:
 
 For example, again using cURL:
 
-    curl -T <exportfile> http://root:foo@myxenserver2/import
+    curl -T <exportfile> http://root:foo@myhypervisor2/import
 
 This command will import the VM to the default SR on the server.
 
@@ -594,7 +585,7 @@ This command will import the VM to the default SR on the server.
 
 Another example:
 
-    curl -T <exportfile> http://root:foo@myxenserver2/import?sr_id=<opaque_ref_of_sr>
+    curl -T <exportfile> http://root:foo@myhypervisor2/import?sr_id=<opaque_ref_of_sr>
 
 This command will import the VM to the specified SR on the server.
 
@@ -602,14 +593,14 @@ To import just the metadata, use the URI `http://server/import_metadata`
 
 ### Xen Virtual Appliance (XVA) VM Import Format
 
-XenServer supports a human-readable legacy VM input format called
+Citrix Hypervisor supports a human-readable legacy VM input format called
 XVA. This section describes the syntax and structure of XVA.
 
 An XVA consists of a directory containing XML metadata and a set of disk
 images. A VM represented by an XVA is not intended to be directly
 executable. Data within an XVA package is compressed and intended for
 either archiving on permanent storage or for being transmitted to a VM
-server - such as a XenServer host - where it can be decompressed
+server - such as a Citrix Hypervisor server - where it can be decompressed
 and executed.
 
 XVA is a hypervisor-neutral packaging format; it should be possible to
@@ -635,10 +626,9 @@ specification.
 An XVA is a directory containing, at a minimum, a file called `ova.xml`.
 This file describes the VM contained within the XVA and is described in
 Section 3.2. Disks are stored within sub-directories and are referenced
-from the ova.xml. The format of disk data is described later in Section
-3.3.
+from the ova.xml. The format of disk data is described in a later section.
 
-The following terms will be used in the rest of the chapter:
+The following terms are used in the rest of this article:
 
 -  HVM: a mode in which unmodified OS kernels run with the help of
     virtualization support in the hardware.
@@ -710,7 +700,7 @@ The attributes have the following meanings:
 Each &lt;vm&gt; may have an optional &lt;hacks&gt; section like the
 following: &lt;hacks is\_hvm="false"
 kernel\_boot\_cmdline="root=/dev/sda1 ro"/&gt; The &lt;hacks&gt; element
-is present in the XVA files generated by XenServer but will be
+is present in the XVA files generated by Citrix Hypervisor but will be
 removed in future. The attribute "is\_hvm" is either "true" or "false",
 depending on whether the VM should be booted in HVM or not. The
 "kernel\_boot\_cmdline" contains additional kernel commandline arguments
@@ -755,7 +745,7 @@ chosen to be safely under the maximum file size limits of several
 filesystems. If the files are gunzipped and then concatenated together,
 the original image is recovered.
 
-XenServer provides two mechanisms for booting a VM: (i) using a
+Citrix Hypervisor provides two mechanisms for booting a VM: (i) using a
 paravirtualized kernel extracted through pygrub; and (ii) using HVM. The
 current implementation uses the "is\_hvm" flag within the &lt;hacks&gt;
 section to decide which mechanism to use.
@@ -842,11 +832,11 @@ In this chapter we have presented a brief high-level overview of the API
 and its object-model. The aim here is not to present the detailed
 semantics of the API, but just to provide enough background for you to
 start reading the code samples of the next chapter and to find your way
-around the more detailed XenServer API Reference document.
+around the more detailed Citrix Hypervisor Management API reference.
 
 There are a number of places you can find more information:
 
--  The XenServer Administrators Guide contains an overview of the
+-  The [Citrix Hypervisor Product Documentation](https://docs.citrix.com/en-us/citrix-hypervisor/command-line-interface.html) contains an overview of the
     `xe` CLI. Since a good deal of `xe` commands are a thin veneer over
     the API, playing with `xe` is a good way to start finding your way
     around the API object model described in this chapter.
@@ -854,9 +844,9 @@ There are a number of places you can find more information:
 -  The code samples in the next chapter provide some concrete instances
     of API coding in a variety of client languages.
 
--  The XenServer API Reference document provides a more detailed description of the API semantics as well as the wire protocol of the RPC messages.
+-  The Citrix Hypervisor Management API reference provides a more detailed description of the API semantics as well as the wire protocol of the RPC messages.
 
--  There are a few scripts that use the API in the XenServer Host
+-  There are a few scripts that use the API in the Citrix Hypervisor server
     dom0 itself. For example, "/opt/xensource/libexec/shutdown" is a
     python program that cleanly shuts VMs down. This script is invoked
     when the host itself is shut down.
