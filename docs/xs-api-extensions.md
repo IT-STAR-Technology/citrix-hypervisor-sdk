@@ -80,9 +80,11 @@ host agent. The sequence of API calls is as follows:
 
 8.  Returns a URI describing where the requested console is located. The
     URIs are of the
-    form: `https://192.168.0.1/console?ref=OpaqueRef:c038533a-af99-a0ff-9095-c1159f2dc6a0`.
+    form: `https://192.168.0.1/console?ref=OpaqueRef:c038533a-af99-a0ff-9095-c1159f2dc6a0`
+    or `https://192.168.0.1/console?uuid=026e34fe-f0f2-20ee-5344-46d1aa922d5b`
 
-9.  Client to 192.168.0.1: HTTP CONNECT "/console?ref=(...)"
+9.  Client to 192.168.0.1: HTTP CONNECT "/console?ref=(...)". You will
+    also need to pass in "session_id=<session reference>" as a cookie.
 
 The final HTTP CONNECT is slightly non-standard since the HTTP/1.1 RFC
 specifies that it should only be a host and a port, rather than a URL.
