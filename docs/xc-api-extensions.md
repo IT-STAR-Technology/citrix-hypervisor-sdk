@@ -72,7 +72,7 @@ particular key-value pairs in dictionaries such as `VM.other_config`.
 
 |  Key                              |  Semantics                                                                                                   |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| VBD.other\_config\["is\_owner"\]  | If set, then this disk may be deleted when the VM is uninstalled.                                            |
+| VBD.other\_config\["owner"\]      | If set, then this disk may be deleted when the VM is uninstalled.                                            |
 | VBD.other\_config\["class"\]      | Set to an integer, corresponding to the Best Effort setting of `ionice`.                                     |
 
 ## Network
