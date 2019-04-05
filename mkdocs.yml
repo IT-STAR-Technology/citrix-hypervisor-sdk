@@ -42,7 +42,7 @@ markdown_extensions:
   - footnotes
   - meta
 
-pages:
+nav:
 - Citrix Hypervisor 8.0 CR Software Development Kit Guide: index.md
 - Getting Started: getting-started.md
 - Overview: overview.md
