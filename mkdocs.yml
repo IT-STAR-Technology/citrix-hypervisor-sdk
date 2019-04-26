@@ -1,5 +1,5 @@
-site_name: Citrix Hypervisor Software Development Kit Guide
-site_description: Citrix Hypervisor Software Development Kit Guide
+site_name: Citrix Hypervisor 8.0 CR Software Development Kit Guide
+site_description: Citrix Hypervisor 8.0 CR Software Development Kit Guide
 site_title: Developer Documentation
 
 copyright: 'Copyright &copy; 1999-2019 Citrix Systems, Inc. All rights reserved. '
@@ -23,7 +23,7 @@ theme:
     code: Roboto Mono
   favicon: /media/favicon.ico
   logo: https://developer-docs.citrix.com/_static/Citrix_Logo_Black.png
-  
+
 extra:
   social:
     - type: youtube
@@ -43,10 +43,10 @@ markdown_extensions:
   - meta
 
 nav:
-- Citrix XenServer 7.6 CR Software Development Kit Guide: index.md
+- Citrix Hypervisor 8.0 CR Software Development Kit Guide: index.md
 - Getting Started: getting-started.md
 - Overview: overview.md
 - Using: using.md
 - Using HTTP: using-http.md
-- XenServer API Extensions: xs-api-extensions.md
+- Citrix Hypervisor Management API Extensions: xs-api-extensions.md
 - XenCenter API Extensions: xc-api-extensions.md

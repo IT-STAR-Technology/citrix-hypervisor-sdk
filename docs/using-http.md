@@ -1,6 +1,6 @@
-# Using HTTP to interact with XenServer
+# Using HTTP to interact with Citrix Hypervisor
 
-XenServer exposes an HTTP interface on each host, that can be used
+Citrix Hypervisor exposes an HTTP interface on each host, that can be used
 to perform various operations. This chapter describes the available
 mechanisms.
 
@@ -8,7 +8,7 @@ mechanisms.
 
 Because the import and export of VMs can take some time to complete, an
 asynchronous HTTP interface to the import and export operations is
-provided. To perform an export using the XenServer API, construct
+provided. To perform an export using the Citrix Hypervisor Management API, construct
 an HTTP GET call providing a valid session ID, task ID and VM UUID, as
 shown in the following pseudo code:
 
@@ -25,10 +25,10 @@ following pseudo code:
     result = HTTP.put(server, 80, "/import?session_id=session_id&task_id=task_id&ref=vm_uuid");
 ```
 
-## Getting XenServer Performance Statistics
+## Getting Citrix Hypervisor Performance Statistics
 
-XenServer records statistics about the performance of various
-aspects of your XenServer installation. The metrics are stored
+Citrix Hypervisor records statistics about the performance of various
+aspects of your Citrix Hypervisor installation. The metrics are stored
 persistently for long term access and analysis of historical trends.
 Where storage is available to a VM, the statistics are written to disk
 when a VM is shut down. Statistics are stored in RRDs (Round Robin
@@ -39,14 +39,14 @@ RRDs are also backed up every day.
 
 > **Warning**
 >
-> In earlier versions of the XenServer API, instantaneous
+> In earlier versions of the Citrix Hypervisor Management API, instantaneous
 > performance metrics could be obtained using the `VM_metrics`,
 > `VM_guest_metrics`, `host_metrics` methods and associated methods.
 > These methods has been deprecated in favor of using the http handler
 > described in this chapter to download the statistics from the RRDs on
 > the VMs and servers. Note that by default the legacy metrics will
 > return zeroes. To revert to periodic statistical polling as present in
-> earlier versions of XenServer, set the
+> earlier versions of Citrix Hypervisor, set the
 > `other-config:rrd_update_interval=interval` parameters on your host to one of the following values,
 > and restart your host:
 >

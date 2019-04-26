@@ -1,34 +1,34 @@
 # Getting Started
 
-XenServer includes a Remote Procedure Call (RPC) based API providing programmatic
-access to the extensive set of XenServer management features and
-tools. You can call the XenServer API from a remote system or
-from local to the XenServer host.
+Citrix Hypervisor includes a Remote Procedure Call (RPC) based API providing programmatic
+access to the extensive set of Citrix Hypervisor management features and
+tools. You can call the Citrix Hypervisor Management API from a remote system or
+from local to the Citrix Hypervisor server.
 
-It's possible to write applications that use the XenServer Management
+It's possible to write applications that use the Citrix Hypervisor Management
 API directly through raw RPC calls. However, the task of developing third-party
 applications is greatly simplified by using a language binding. These language
 bindings expose the individual API calls as first-class functions in the
-target language. The XenServer SDK provides language bindings and
+target language. The Citrix Hypervisor SDK provides language bindings and
 example code for the C, C\#, Java, Python, and PowerShell programming
 languages.
 
 ## System Requirements and Preparation
 
 The first step towards using the SDK is to install
-XenServer. XenServer is available for
-download at <http://www.citrix.com/downloads/xenserver/>. For detailed instructions on
-how to set up your development host, see the XenServer Installation Guide.
+Citrix Hypervisor. Citrix Hypervisor is available for
+download at <http://www.citrix.com/downloads/citrix-hypervisor/>. For detailed instructions on
+how to set up your development host, see the [Citrix Hypervisor Product Documentation](https://docs.citrix.com/en-us/citrix-hypervisor).
 When the installation is complete, note the *host IP address* and the *host password*.
 
 ## Downloading
 
 The SDK is packaged as a ZIP file and is available as a free download
-from <http://www.citrix.com/downloads/xenserver/>.
+from <http://www.citrix.com/downloads/citrix-hypervisor/>.
 
 ## SDK Languages
 
-The extracted contents of the SDK ZIP file are in the `XenServer-SDK`
+The extracted contents of the SDK ZIP file are in the `CitrixHypervisor-SDK`
 directory. The following is an overview of its structure. Where
 necessary, subdirectories have their own individual README files.
 
@@ -36,7 +36,7 @@ necessary, subdirectories have their own individual README files.
 >     the SDK languages. If you intend to use one language, it's
 >     advisable to browse the sample code available in the others as well.
 
-The top level of the XenServer-SDK directory includes the XenServer API
+The top level of the CitrixHypervisor-SDK directory includes the Citrix Hypervisor Management API
 Reference document. This document describes in more detail the API semantics and
 the wire protocol of the RPC messages.
 
@@ -45,12 +45,12 @@ The format supported by each of the SDK languages is specified in the following 
 
 ### C
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to C programmers:
 
 -  `libxenserver`
 
-    The XenServer SDK for C.
+    The Citrix Hypervisor SDK for C.
 
     -  `libxenserver/bin`
 
@@ -106,12 +106,12 @@ The following simple examples are included with the C SDK:
 
 ### C &#35;
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to C\# programmers:
 
 -  `XenServer.NET`
 
-    The XenServer SDK for C\#.NET.
+    The Citrix Hypervisor SDK for C\#.NET.
 
     -  `XenServer.NET/bin`
 
@@ -132,7 +132,7 @@ relevant to C\# programmers:
 #### C\# SDK dependencies
 
 The C\# SDK supports the JSON-RPC v2.0 protocol.
-The C\# SDK is backwards compatible and can be used to communicate with hosts running an older version of XenServer.
+The C\# SDK is backwards compatible and can be used to communicate with hosts running an older version of Citrix Hypervisor or XenServer.
 For server versions prior to XenServer 7.3, the C# SDK uses the XML-RPC protocol, with the exception of XenServer 7.1 LTSR where the JSON-RPC v1.0 protocol is used.
 
 **Platform supported**:
@@ -152,23 +152,23 @@ For server versions prior to XenServer 7.3, the C# SDK uses the XML-RPC protocol
 **Examples**:
 
 The following examples are included with the C\# SDK in the directory
-`XenServer-SDK/XenServer.NET/samples` as separate projects of the
+`CitrixHypervisor-SDK/XenServer.NET/samples` as separate projects of the
 `XenSdkSample.sln` solution:
 
--  `GetVariousRecords`: logs to a XenServer Host and displays
+-  `GetVariousRecords`: logs to a Citrix Hypervisor server and displays
     information about hosts, storage, and virtual machines;
 
--  `VmPowerStates`: logs to a XenServer Host, finds a VM and
+-  `VmPowerStates`: logs to a Citrix Hypervisor server, finds a VM and
     takes it through the various power states. Requires a shutdown VM
     to be already installed.
 
 ### Java
 
-The XenServer-SDK directory contains the following folders that are relevant to Java programmers:
+The CitrixHypervisor-SDK directory contains the following folders that are relevant to Java programmers:
 
 -  `XenServerJava`
 
-    The XenServer SDK for Java
+    The Citrix Hypervisor SDK for Java
 
     -  `XenServerJava/bin`
 
@@ -200,7 +200,7 @@ The Java SDK supports the XML-RPC protocol.
 
 **Library**:
 
--  The language binding is generated as a Java Archive file `xenserver-.jar` that is linked by Java programs.
+-  The language binding is generated as a Java Archive file `xenserver.jar` that is linked by Java programs.
 
 **Dependencies**:
 
@@ -212,7 +212,7 @@ These jars are needed for the `xenserver.jar` to be able to communicate with the
 
 **Examples**:
 
-Running the main file `XenServer-SDK/XenServerJava/samples/RunTests.java` runs a series of examples included in the same directory:
+Running the main file `CitrixHypervisor-SDK/XenServerJava/samples/RunTests.java` runs a series of examples included in the same directory:
 
 -  `AddNetwork`: Adds a new internal network not attached to any NICs;
 
@@ -240,16 +240,16 @@ Running the main file `XenServer-SDK/XenServerJava/samples/RunTests.java` runs a
 
 ### PowerShell
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to PowerShell users:
 
 -  `XenServerPowerShell`
 
-    The XenServer SDK for PowerShell.
+    The Citrix Hypervisor SDK for PowerShell.
 
     -  `XenServerPowerShell/XenServerPSModule`
 
-        The XenServer PowerShell module.
+        The Citrix Hypervisor PowerShell module.
 
     -  `XenServerPowerShell/samples`
 
@@ -257,7 +257,7 @@ relevant to PowerShell users:
 
     -  `XenServerPowerShell/src`
 
-        C\# source code for the XenServer PowerShell cmdlets.
+        C\# source code for the Citrix Hypervisor PowerShell cmdlets.
 
 Detailed installation instructions are provided within the README file
 accompanying the module. After the module is installed, you can obtain an overview of
@@ -268,7 +268,7 @@ the cmdlets by typing:
 #### PowerShell SDK dependencies
 
 The PowerShell module supports the same RPC protocols as the C# SDK.
-> **Note** This module is generally, but not fully, backwards compatible. To communicate with hosts running older versions of XenServer, it is advisable to use the module of the same version as the host.
+> **Note** This module is generally, but not fully, backwards compatible. To communicate with hosts running older versions of Citrix Hypervisor or XenServer, it is advisable to use the module of the same version as the host.
 
 **Platform supported**:
 
@@ -286,29 +286,29 @@ The PowerShell module supports the same RPC protocols as the C# SDK.
 **Examples**:
 
 The following example scripts are included with the PowerShell module
-in the directory `XenServer-SDK/XenServerPowerShell/samples`:
+in the directory `CitrixHypervisor-SDK/XenServerPowerShell/samples`:
 
 -  `AutomatedTestCore.ps1`: Shows how to log into a
-    XenServer host, create a storage repository and a VM, and then
+    Citrix Hypervisor server, create a storage repository and a VM, and then
     perform various powercycle operations.
 
--  `HttpTest.ps1`: Shows how to log into a XenServer host,
+-  `HttpTest.ps1`: Shows how to log into a Citrix Hypervisor server,
     create a VM, and then perform operations such as VM importing and
     exporting, patch upload, and retrieval of performance statistics.
 
 ### Python
 
-The XenServer-SDK directory contains the following folders that are
+The CitrixHypervisor-SDK directory contains the following folders that are
 relevant to Python developers:
 
 -  `XenServerPython`
 
-    This directory contains the XenServer Python module
+    This directory contains the Citrix Hypervisor Python module
     *XenAPI.py*.
 
     -  `XenServerPython/samples`
 
-        XenServer API examples using Python.
+        Citrix Hypervisor Management API examples using Python.
 
 #### Python module dependencies
 
@@ -336,9 +336,9 @@ The SDK includes the following Python examples:
 -  `install.py` - installs a Debian VM, connects it to a network,
     starts it up and waits for it to report its IP address;
 
--  `license.py` - uploads a fresh license to a XenServer Host;
+-  `license.py` - uploads a fresh license to a Citrix Hypervisor server;
 
--  `permute.py` - selects a set of VMs and uses XenMotion to move them
+-  `permute.py` - selects a set of VMs and uses live migration to move them
     simultaneously among hosts;
 
 -  `powercycle.py` - selects a set of VMs and powercycles them;
@@ -351,8 +351,8 @@ The SDK includes the following Python examples:
 
 ## Command Line Interface (CLI)
 
-Besides using raw RPC or one of the supplied SDK languages, third-party software developers can integrate with XenServer hosts
-by using the XE command line interface `xe`. The xe CLI is installed by default on XenServer hosts. A stand-alone remote CLI is also
+Besides using raw RPC or one of the supplied SDK languages, third-party software developers can integrate with Citrix Hypervisor servers
+by using the xe command line interface `xe`. The xe CLI is installed by default on Citrix Hypervisor servers. A stand-alone remote CLI is also
 available for Linux. On Windows, the `xe.exe` CLI executable is
 installed along with XenCenter.
 
@@ -379,10 +379,10 @@ installed along with XenCenter.
 The CLI allows almost every API call to be directly invoked from a
 script or other program, silently taking care of the required session
 management. The xe CLI syntax and capabilities are described in detail
-in the XenServer Administrator's Guide. For more resources
+in the [Citrix Hypervisor Product Documentation](https://docs.citrix.com/en-us/citrix-hypervisor/command-line-interface.html). For more resources
 and examples, visit the [Citrix Knowledge Center](http://support.citrix.com).
 
 > **Note**
 >
-> When running the CLI from a XenServer Host console,
-> tab-completion of both command names and arguments is available.
+> When running the CLI from a Citrix Hypervisor server console,
+> tab completion of both command names and arguments is available.

@@ -28,7 +28,7 @@ particular key-value pairs in dictionaries such as `VM.other_config`.
 | host.software\_version\["xapi"\]             | Returns the host's api revision number.                                                |
 | host.software\_version\["package-linux"\]    | Returns "installed" if the Linux pack has been installed.                              |
 | host.software\_version\["oem\_build\_number"\] | If the host is the OEM version, return its revision number.                          |
-| host.logging\["syslog\_destination"\]        | Gets or sets the destination for the XenServer system logger (null for local logging). |
+| host.logging\["syslog\_destination"\]        | Gets or sets the destination for the Citrix Hypervisor system logger (null for local logging). |
 | host.logging\["multipathing"\]               | "true" if storage multipathing is enabled on this host.                                |
 | host.logging\["boot\_time"\]                 | A floating point Unix time giving the time that the host booted.                       |
 | host.logging\["agent\_start\_time"\]         | A floating point Unix time giving the time that the control domain management daemon started.|
@@ -45,7 +45,7 @@ particular key-value pairs in dictionaries such as `VM.other_config`.
 | VM.other\_config\["ignore\_excessive\_vcpus"\] | Gets or sets to ignore XenCenter warning if a VM has more VCPUs than its host has physical CPUs, `true` to ignore. |
 | VM.other\_config\["HideFromXenCenter"\]     | Gets or sets whether  XenCenter will show the VM in the treeview, "true" to hide.    |
 | VM.other\_config\["import\_task"\]          | Gets the import task that created this VM.                                                     |
-| VM.HVM\_boot\_params\["order"\]             | Gets or sets the VM's boot order on HVM VM's only, e.g. "CDN" will boot in the following order - First boot disk,  CD drive, Network. |
+| VM.HVM\_boot\_params\["order"\]             | Gets or sets the VM's boot order on HVM VM's only, for example,  "CDN" will boot in the following order - First boot disk,  CD drive, Network. |
 | VM.VCPU\_params\["weight"\]                 | Gets or sets the IONice value for the VM's VCPUs, ranges from 1 to 65536, 65536 being the highest.  |
 | VM.pool\_migrate(..., options\['live'\])    | `true` indicates live migration. XenCenter always uses this.                         |
 | VM.other\_config\["install-methods"\]       | A comma-separated list of install methods available for this template. Can include "cdrom", "nfs", "http" or "ftp".          |
@@ -72,7 +72,7 @@ particular key-value pairs in dictionaries such as `VM.other_config`.
 
 |  Key                              |  Semantics                                                                                                   |
 |-----------------------------------|--------------------------------------------------------------------------------------------------------------|
-| VBD.other\_config\["is\_owner"\]  | If set, then this disk may be deleted when the VM is uninstalled.                                            |
+| VBD.other\_config\["owner"\]      | If set, then this disk may be deleted when the VM is uninstalled.                                            |
 | VBD.other\_config\["class"\]      | Set to an integer, corresponding to the Best Effort setting of `ionice`.                                     |
 
 ## Network

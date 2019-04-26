@@ -1,17 +1,17 @@
-# XenServer API extensions
+# Citrix Hypervisor Management API extensions
 
-The XenAPI is a general and comprehensive interface to managing the
-life-cycles of Virtual Machines, and offers a lot of flexibility in the
-way that XenAPI providers may implement specific functionality (e.g.
-storage provisioning, or console handling). XenServer has several
+The Management API is a general and comprehensive interface to managing the
+life-cycles of virtual machines, and offers a lot of flexibility in the
+way that Management API providers may implement specific functionality (for example,
+storage provisioning, or console handling). Citrix Hypervisor has several
 extensions which provide useful functionality used in our own
 XenCenter interface. The workings of these mechanisms are described
 in this chapter.
 
-Extensions to the XenAPI are often provided by specifying `other-config`
+Extensions to the Management API are often provided by specifying `other-config`
 map keys to various objects. The use of this parameter indicates that
 the functionality is supported for that particular release of
-XenServer, but *not* as a long-term feature. We are constantly
+Citrix Hypervisor, but *not* as a long-term feature. We are constantly
 evaluating promoting functionality into the API, but this requires the
 nature of the interface to be well-understood. Developer feedback as to
 how you are using some of these extensions is always welcome to help us
@@ -19,7 +19,7 @@ make these decisions.
 
 ## VM console forwarding
 
-Most XenAPI graphical interfaces will want to gain access to the VM
+Most Management API graphical interfaces will want to gain access to the VM
 consoles, in order to render them to the user as if they were physical
 machines. There are several types of consoles available, depending on
 the type of guest or if the physical host console is being accessed:
@@ -40,7 +40,7 @@ and use an RDP client to connect directly (this must be done outside of
 the XenAPI).
 
 Paravirtual VMs, such as Linux guests, provide a native text console
-directly. XenServer provides a utility (called `vncterm`) to
+directly. Citrix Hypervisor provides a utility (called `vncterm`) to
 convert this text-based console into a graphical VNC representation.
 Guest networking is not necessary for this console to function. As with
 Windows above, Linux distributions often configure VNC within the guest,
@@ -80,9 +80,11 @@ host agent. The sequence of API calls is as follows:
 
 8.  Returns a URI describing where the requested console is located. The
     URIs are of the
-    form: `https://192.168.0.1/console?ref=OpaqueRef:c038533a-af99-a0ff-9095-c1159f2dc6a0`.
+    form: `https://192.168.0.1/console?ref=OpaqueRef:c038533a-af99-a0ff-9095-c1159f2dc6a0`
+    or `https://192.168.0.1/console?uuid=026e34fe-f0f2-20ee-5344-46d1aa922d5b`
 
-9.  Client to 192.168.0.1: HTTP CONNECT "/console?ref=(...)"
+9.  Client to 192.168.0.1: HTTP CONNECT "/console?ref=(...)". You will
+    also need to pass in "session_id=<session reference>" as a cookie.
 
 The final HTTP CONNECT is slightly non-standard since the HTTP/1.1 RFC
 specifies that it should only be a host and a port, rather than a URL.
@@ -150,7 +152,7 @@ The installation of paravirtual Linux guests is complicated by the fact
 that a Xen-aware kernel must be booted, rather than simply installing
 the guest using hardware-assistance. This does have the benefit of
 providing near-native installation speed due to the lack of emulation
-overhead. XenServer supports the installation of several different
+overhead. Citrix Hypervisor supports the installation of several different
 Linux distributions, and abstracts this process as much as possible.
 
 To this end, a special bootloader known as `eliloader` is present in the
@@ -159,7 +161,7 @@ at start time and performs distribution-specific installation behavior.
 
 -  `install-repository` - Required. Path to a repository; 'http',
     'https', 'ftp', or 'nfs'. Should be specified as would be used by
-    the target installer, but not including prefixes, e.g. method=.
+    the target installer, but not including prefixes, for example,  method=.
 
 -  `install-vnc` - Default: false. Use VNC where available during the
     installation.
@@ -171,7 +173,7 @@ at start time and performs distribution-specific installation behavior.
 -  `install-round` - Default: 1. The current bootloader round. Not to
     be edited by the user.
 
-## Adding Xenstore entries to VMs
+## Adding xenstore entries to VMs
 
 Developers may wish to install guest agents into VMs which take special
 action based on the type of the VM. In order to communicate this
@@ -185,7 +187,7 @@ Set the `xenstore-data` parameter in the VM record:
 
 Start the VM.
 
-If it is a Linux-based VM, install the XenServer Tools and use the `xenstore-read` to verify that the node exists in Xenstore.
+If it is a Linux-based VM, install the Citrix VM Tools and use the `xenstore-read` to verify that the node exists in xenstore.
 
 > **Note**
 >
@@ -194,7 +196,7 @@ If it is a Linux-based VM, install the XenServer Tools and use the `xenstore-rea
 
 ## Security enhancements
 
-The control domain in XenServer  and above has
+The control domain in Citrix Hypervisor has
 various security enhancements in order to harden it against attack from
 malicious guests. Developers should never notice any loss of correct
 functionality as a result of these changes, but they are documented here
@@ -209,7 +211,7 @@ as variations of behavior from other distributions.
 -  The device `/proc/xen/privcmd`, accessed through
     `xs_interface_open()` in `libxenctrl`. A handle is restricted using
     `xc_interface_restrict()`. Some privileged commands are naturally
-    hard to restrict (e.g. the ability to make arbitrary hypercalls),
+    hard to restrict (for example,  the ability to make arbitrary hypercalls),
     and these are simply prohibited on restricted handles.
 
 -  A restricted handle cannot later be granted more privilege, and so
@@ -309,12 +311,12 @@ indicating how their names may be internationalized.
 
 -  `local-storage`
 
--  `xenserver-tools`
+-  `Citrix Hypervisor-tools`
 
 Additionally, `other_config["i18n-original-value-<field name>"]` gives
 the value of that field when the SR was created. If XenCenter sees
 a record where `SR.name_label` equals `other_config["i18n-original-value-name_label"]` (that is, the record has not changed since it was created during
-XenServer installation), then internationalization will be applied.
+Citrix Hypervisor installation), then internationalization will be applied.
 In other words, XenCenter will disregard the current contents of
 that field, and instead use a value appropriate to the user's own
 language.
