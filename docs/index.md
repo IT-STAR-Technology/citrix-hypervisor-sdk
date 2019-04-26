@@ -1,6 +1,4 @@
-# Citrix Hypervisor 8.0 Software Development Kit Guide
-
-## Introduction
+# Introduction
 
 Welcome to the developer's guide for Citrix Hypervisor. Here you will find
 the information you need in order to understand and use the Software
