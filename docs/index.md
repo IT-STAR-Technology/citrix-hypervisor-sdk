@@ -1,4 +1,4 @@
-# Citrix Hypervisor 8.0 Software Development Kit Guide
+# Citrix Hypervisor Software Development Kit Guide
 
 ## Introduction
 
