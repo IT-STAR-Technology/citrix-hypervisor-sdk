@@ -1,6 +1,7 @@
 site_name: Citrix Hypervisor Software Development Kit Guide
 site_description: Citrix Hypervisor Software Development Kit Guide
 site_title: Developer Documentation
+site_url: https://developer-docs.citrix.com
 
 # Copyright
 copyright: 'Copyright &copy; 1999-2019 Citrix Systems, Inc. All rights reserved. '
@@ -62,3 +63,4 @@ nav:
 - Using HTTP: using-http.md
 - Citrix Hypervisor Management API Extensions: xs-api-extensions.md
 - XenCenter API Extensions: xc-api-extensions.md
+- Questions?: https://discussions.citrix.com/forum/1385-citrix-developer-exchange/
