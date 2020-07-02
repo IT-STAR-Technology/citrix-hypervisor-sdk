@@ -26,6 +26,9 @@ When the installation is complete, note the *host IP address* and the *host pass
 The SDK is packaged as a ZIP file and is available as a free download
 from <http://www.citrix.com/downloads/citrix-hypervisor/>.
 
+The Python module is also available as a package on [PyPi](https://pypi.org/project/XenAPI/).
+See section [SDK Languages - Python](#python) for details.
+
 ## SDK Languages
 
 The extracted contents of the SDK ZIP file are in the `CitrixHypervisor-SDK`
@@ -310,6 +313,13 @@ relevant to Python developers:
 
         Citrix Hypervisor Management API examples using Python.
 
+#### Alternative installation
+
+The Python module is also available as a package on [PyPi](https://pypi.org/project/XenAPI/).
+To install the package, enable the virtual environment where it will be used and run
+
+    pip install XenAPI
+
 #### Python module dependencies
 
 The Python module supports the XML-RPC protocol.
@@ -317,6 +327,7 @@ The Python module supports the XML-RPC protocol.
 **Platform supported**:
 
 -  Linux
+-  Windows
 
 **Library**:
 
