@@ -2,7 +2,7 @@
 
 The following section details the assumptions and API extensions that we
 have made, over and above the documented API. Extensions are encoded as
-particular key-value pairs in dictionaries such as `VM.other_config`.
+particular key-value pairs in dictionaries such as [`VM.other_config`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-vm).
 
 ## Pool
 
@@ -86,9 +86,9 @@ particular key-value pairs in dictionaries such as `VM.other_config`.
 
 |  Key                              | Semantics                                                         |
 |-----------------------------------|-------------------------------------------------------------------|
-|  PV\_drivers\_version\["major"\]  | Gets the major version of the VM's PV drivers' version.           |
-|  PV\_drivers\_version\["minor"\]  | Gets the minor version of the VM's PV drivers' version.           |
-|  PV\_drivers\_version\["micro"\]  | Gets the micro (build number) of the VM's PV drivers' version.    |
+|  PV\_drivers\_version\["major"\]  | Gets the major version of the Citrix VM Tools on the VM.          |
+|  PV\_drivers\_version\["minor"\]  | Gets the minor version of the Citrix VM Tools on the VM.          |
+|  PV\_drivers\_version\["micro"\]  | Gets the micro (build number) of the Citrix VM Tools on the VM.   |
 
 ## Task
 

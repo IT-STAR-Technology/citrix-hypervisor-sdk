@@ -61,7 +61,7 @@ In exceptional cases, an item might be deprecated and removed before the next LT
 This deprecation policy applies only to APIs and functionality that are documented at the following locations:
 
 -  [Citrix Product Documentation](http://docs.citrix.com/en-us/citrix-hypervisor.html)
--  [Citrix Developer Documentation](http://developer-docs.citrix.com)
+-  [Citrix Developer Documentation](http://developer.cloud.com)
 
 ## Getting Started with the API
 
@@ -80,13 +80,13 @@ task.
 
 ### Authentication: acquiring a session reference
 
-The first step is to call `Session.login_with_password(username,  password, client_API_version, originator)`. The API is session based, so before you can make other calls you must authenticate with the server. Assuming the user name and password are authenticated correctly, the result of this
-call is a *session reference*. Subsequent API calls take the session
+The first step is to call [`Session.login_with_password(username,  password, client_API_version, originator)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-loginwithpassword). The API is session based, so before you can make other calls you must authenticate with the server. Assuming the user name and password are authenticated correctly, the result of this
+call is a [*session reference*](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-session). Subsequent API calls take the session
 reference as a parameter. In this way, we ensure that only API users who
 are suitably authorized can perform operations on a Citrix Hypervisor
 installation. You can continue to use the same session for any number of
 API calls. When you have finished the session,
-recommends that you call `Session.logout(session)` to clean up: see
+recommends that you call [`Session.logout(session)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-logout) to clean up: see
 later.
 
 ### Acquiring a list of templates to base a new VM installation on
@@ -98,8 +98,8 @@ enumeration of the templates on a Citrix Hypervisor installation for
 yourself, you can execute the `xe template-list` CLI command.) To
 get a list of templates from the API, find the VM objects on
 the server that have their `is_a_template` field set to true. One way to
-do find these objects is by calling `VM.get_all_records(session)` where the session parameter is the reference we acquired
-from our `Session.login_with_password` call earlier. This call queries the server, returning a
+do find these objects is by calling [`VM.get_all_records(session)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-getallrecords_48) where the session parameter is the reference we acquired
+from our [`Session.login_with_password`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-loginwithpassword) call earlier. This call queries the server, returning a
 snapshot (taken at the time of the call) containing all the VM object
 references and their field values.
 
@@ -124,7 +124,7 @@ Continuing through our example, we must now install a new VM based on
 the template we selected. The installation process requires two API calls:
 
 -  First we must now invoke the API call
-    `VM.clone(session, t_ref, "my first VM")`. This call tells the server to clone the VM object
+    [`VM.clone(session, t_ref, "my first VM")`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-clone_1). This call tells the server to clone the VM object
     referenced by `t_ref` to make a new VM object. The return
     value of this call is the VM reference corresponding to the
     newly created VM. Let's call this `new_vm_ref`.
@@ -132,7 +132,7 @@ the template we selected. The installation process requires two API calls:
 -  At this stage, the object referred to by `new_vm_ref` is still a
     template (like the VM object referred to by `t_ref`, from which
     it was cloned). To make `new_vm_ref` into a VM object, we must
-    call `VM.provision(session, new_vm_ref)`. When this call returns the
+    call [`VM.provision(session, new_vm_ref)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-provision). When this call returns the
     `new_vm_ref` object will have had its `is_a_template` field set to
     false, indicating that `new_vm_ref` now refers to a regular VM ready
     for starting.
@@ -149,20 +149,20 @@ the template we selected. The installation process requires two API calls:
 Now we have an object reference representing our newly installed VM, it
 is trivial to take it through a few lifecycle operations:
 
--  To start our VM, we can call `VM.start(session, new_vm_ref)`
+-  To start our VM, we can call [`VM.start(session, new_vm_ref)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-start)
 
 -  After it's running, we can suspend it by calling
-    `VM.suspend(session, new_vm_ref)`,
+    [`VM.suspend(session, new_vm_ref)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-suspend),
 
--  We can resume it by calling `VM.resume(session, new_vm_ref)`.
+-  We can resume it by calling [`VM.resume(session, new_vm_ref)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-resume).
 
--  We can call `VM.shutdown(session, new_vm_ref)` to shut down the VM
+-  We can call [`VM.shutdown(session, new_vm_ref)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-shutdown) to shut down the VM
     cleanly.
 
 ### Logging out
 
 When an application is finished interacting with a Citrix Hypervisor server,
-it is good practice to call `Session.logout(session)`. This call invalidates
+it is good practice to call [`Session.logout(session)`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-logout). This call invalidates
 the session reference (so it cannot be used in subsequent API calls) and
 deallocates server-side memory used to store the session object.
 
@@ -177,7 +177,7 @@ server, the best policy is:
 -  Choose a string that identifies your application and its version.
 
 -  Create a single session at start-of-day, using that identifying
-    string for the `originator` parameter to `Session.login_with_password`.
+    string for the `originator` parameter to [`Session.login_with_password`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-loginwithpassword).
 
 -  Use this session throughout the application and then explicitly logout when possible.
 
@@ -200,20 +200,20 @@ Citrix Hypervisor template and perform various lifecycle operations on
 it. Note that the number of calls we had to make to
 affect these operations was small:
 
--  One call to acquire a session: `Session.login_with_password()`
+-  One call to acquire a session: [`Session.login_with_password()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-loginwithpassword)
 
 -  One call to query the VM (and template) objects present on the
-    Citrix Hypervisor installation: `VM.get_all_records()`. Recall that we
+    Citrix Hypervisor installation: [`VM.get_all_records()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-getallrecords_48). Recall that we
     used the information returned from this call to select a suitable
     template to install from.
 
--  Two calls to install a VM from our chosen template: `VM.clone()`,
-    followed by `VM.provision()`.
+-  Two calls to install a VM from our chosen template: [`VM.clone()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-clone_1),
+    followed by [`VM.provision()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-provision).
 
--  One call to start the resultant VM: `VM.start()` (and similarly
+-  One call to start the resultant VM: [`VM.start()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-start) (and similarly
     other single calls to suspend, resume, and shut down accordingly)
 
--  And then one call to log out `Session.logout()`
+-  And then one call to log out [`Session.logout()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-logout).
 
 Although the API as a whole is complex and fully featured, common tasks (such as VM lifecycle operations) are straightforward, requiring only a few simple API calls.
 Keep this fact in mind as you study the next section which might, on first reading, appear a little daunting!
@@ -230,16 +230,16 @@ We start by giving a brief outline of some of the core classes that make up the 
 
 ### VM
 
-A VM object represents a particular virtual machine instance on a Citrix Hypervisor server or Resource Pool. Example
+A [VM object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vm) represents a particular virtual machine instance on a Citrix Hypervisor server or Resource Pool. Example
 methods include `start`, `suspend`, `pool_migrate`; example parameters include `power_state`, `memory_static_max`, and `name_label`. (In the previous section we saw how the VM class is used to represent both templates and regular VMs)
 
 ### Host
 
-A host object represents a physical host in a Citrix Hypervisor pool. Example methods include `reboot` and `shutdown`. Example parameters include `software_version`, `hostname`, and \[IP\]`address`.
+A [host object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-host) represents a physical host in a Citrix Hypervisor pool. Example methods include `reboot` and `shutdown`. Example parameters include `software_version`, `hostname`, and \[IP\]`address`.
 
 ### VDI
 
-A VDI object represents a *Virtual Disk Image*. Virtual Disk Images can be attached to VMs. A
+A [VDI object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vdi) represents a *Virtual Disk Image*. Virtual Disk Images can be attached to VMs. A
 block device appears inside the VM through which the bits encapsulated by the attached Virtual Disk Image can be read
 and written. Example methods of the VDI class include `resize` and `clone`. Example fields include
 `virtual_size` and `sharable`.
@@ -248,7 +248,7 @@ represent the newly created disks. These VDIs were attached to the VM object.
 
 ### SR
 
-An SR (*Storage Repository*) aggregates a collection of VDIs, It encapsulates the properties of physical
+An [SR object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-sr) (Storage Repository) aggregates a collection of VDIs, It encapsulates the properties of physical
 storage on which the VDIs' bits reside. Example parameters include:
 
 -  `type` which determines the storage-specific driver a Citrix Hypervisor installation uses to read/write the SR's VDIs
@@ -261,7 +261,8 @@ Example methods include
 
 ### Network
 
-A network object represents a layer-2 network that exists in the environment in which the Citrix Hypervisor server
+A [network object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-network)
+represents a layer-2 network that exists in the environment in which the Citrix Hypervisor server
 instance lives. Since Citrix Hypervisor does not manage networks directly, network is a lightweight class that models
  physical and virtual network topology. VM and Host objects that are *attached* to a particular
 Network object can send network packets to each other. The objects are attached through VIF and PIF instances. For more information, see the following section.
@@ -283,10 +284,11 @@ disks and network objects respectively.
 
 ### VBD
 
-A VBD (*Virtual Block Device*) object represents an
+A [VBD object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vbd) (Virtual Block Device) represents an
 attachment between a VM and a VDI. When a VM is booted,
 its VBD objects are queried to determine which disk
 images (VDIs) to attach.
+
 Example methods of the VBD class include:
 
 -  `plug` which *hot plugs* a disk device into a running VM, making the specified VDI accessible therein
@@ -298,10 +300,10 @@ Example fields include:
 
 ### VIF
 
-A VIF (*Virtual Network Interface*) object represents
-an attachment between a VM and a Network object. When
-a VM is booted, its VIF objects are queried to
+A [VIF object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vif) (Virtual Network Interface) represents
+an attachment between a VM and a Network object. When a VM is booted, its VIF objects are queried to
 determine which network devices to create.
+
 Example methods of the VIF class include:
 
 -  `plug` which *hot plugs* a network device into a running VM
@@ -316,7 +318,7 @@ how Hosts are attached to Networks and Storage.
 
 ### PIF
 
-A PIF (*Physical Interface*) object represents an attachment
+A [PIF object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-pif) (Physical Interface) represents an attachment
 between a Host and a Network object. If a host is connected to a
 Network over a PIF, packets from the specified host can be
 transmitted/received by the corresponding host.
@@ -330,9 +332,8 @@ integer in the "VLAN" field).
 
 ### PBD
 
-A PBD (*Physical Block Device*) object represents an attachment
-between a Host and an SR (Storage Repository) object. Fields
-include:
+A [PBD object](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-pbd) (Physical Block Device) represents an attachment
+between a Host and an SR object. Fields include:
 
 -  `currently-attached` which specifies whether the chunk of storage represented by the specified SR object is available to the host
 -  `device_config` which specifies storage-driver specific parameters that determine how the low-level storage devices are configured on the specified host.
@@ -342,10 +343,8 @@ include:
 
 ![Common API Classes](./media/dia_class_overview.png)
 
-This figure presents a graphical overview of
-the API classes involved in managing VMs, Hosts, Storage, and Networking.
-From this diagram, the symmetry between storage and network
-configuration, and also the symmetry between virtual machine and host
+This figure presents a graphical overview of the API classes involved in managing VMs, Hosts, Storage, and Networking.
+From this diagram, the symmetry between storage and network configuration, and also the symmetry between virtual machine and host
 configuration is plain to see.
 
 ## Working with VIFs and VBDs
@@ -367,8 +366,8 @@ altogether.
 
 #### Creating a new blank disk image
 
-First, instantiate the disk image on physical storage by calling `VDI.create()`.
-The `VDI.create` call takes a number of parameters, including:
+First, instantiate the disk image on physical storage by calling [`VDI.create()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_21).
+The [`VDI.create`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_21) call takes a number of parameters, including:
 
 -  `name_label` and `name_description`: a human-readable
     name/description for the disk (for example, for convenient display in the UI). These fields can be left blank if desired.
@@ -381,7 +380,7 @@ The `VDI.create` call takes a number of parameters, including:
     attach a VDI with its `read_only` field set to true in a read/write fashion results
     in error.)
 
-Invoking the `VDI.create` call causes the Citrix Hypervisor installation to
+Invoking the [`VDI.create`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_21) call causes the Citrix Hypervisor installation to
 create a blank disk image on physical storage, create an associated VDI
 object (the datamodel instance that refers to the disk image on physical
 storage) and return a reference to this newly created VDI object.
@@ -391,7 +390,7 @@ depends on the type of the SR in which the created VDI resides. For
 example, if the SR is of type "lvm" then the new disk image will be
 rendered as an LVM volume; if the SR is of type "nfs" then the new disk
 image will be a sparse VHD file created on an NFS filer. (You can query
-the SR type through the API using the `SR.get_type()` call.)
+the SR type through the API using the [`SR.get_type()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-gettype_1) call.)
 
 > **Note**
 >
@@ -407,8 +406,8 @@ Host, but there is nothing linking them together. So our next step is to
 create such a link, associating the VDI with our VM.
 
 The attachment is formed by creating a new "connector" object called a
-VBD (*Virtual Block Device*). To create our VBD we invoke the
-`VBD.create()` call. The `VBD.create()` call takes a number of parameters including:
+VBD (Virtual Block Device). To create our VBD we invoke the
+[`VBD.create()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_20) call. The [`VBD.create()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_20) call takes a number of parameters including:
 
 -  `VM` - the object reference of the VM to which the VDI is to be
     attached
@@ -427,13 +426,13 @@ VBD (*Virtual Block Device*). To create our VBD we invoke the
     more meaning for Windows VMs than it does for Linux VMs, but we will
     not explore this level of detail in this chapter.)
 
-Invoking `VBD.create` makes a VBD object on the Citrix Hypervisor
+Invoking [`VBD.create`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_20) makes a VBD object on the Citrix Hypervisor
 installation and returns its object reference. However, this call in
 itself does not have any side-effects on the running VM (that is, if you
 go and look inside the running VM you will see that the block device has
 not been created). The fact that the VBD object exists but that the
 block device in the guest is not active, is reflected by the fact that
-the VBD object's `currently_attached` field is set to false.
+the VBD object's [`currently_attached`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-vbd) field is set to false.
 
 ![A VM object with 2 associated VDIs](./media/dia_vm_sr.png)
 
@@ -452,17 +451,17 @@ VDIs.
 
 Rebooting the VM is all very well, but recall that we wanted to attach a
 newly created blank disk to a *running* VM. This can be achieved by
-invoking the `plug` method on the newly created VBD object. When the
-`plug` call returns successfully, the block device to which the VBD
+invoking the [`plug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-plug_2) method on the newly created VBD object. When the
+[`plug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-plug_2) call returns successfully, the block device to which the VBD
 relates will have appeared inside the running VM -- i.e. from the
 perspective of the running VM, the guest operating system is led to
 believe that a new disk device has just been *hot plugged*. Mirroring
-this fact in the managed world of the API, the `currently_attached` field of the VBD is set to true.
+this fact in the managed world of the API, the [`currently_attached`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-vbd) field of the VBD is set to true.
 
-Unsurprisingly, the VBD `plug` method has a dual called "`unplug`".
-Invoking the `unplug` method on a VBD object causes the associated block
+Unsurprisingly, the VBD [`plug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-plug_2) method has a dual called "`unplug`".
+Invoking the [`unplug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-unplug_2) method on a VBD object causes the associated block
 device to be *hot unplugged* from a running VM, setting the
-`currently_attached` field of the VBD object to false accordingly.
+[`currently_attached`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-vbd) field of the VBD object to false accordingly.
 
 ### Creating and attaching Network Devices to VMs
 
@@ -479,11 +478,11 @@ is the API representation of a block device inside a VM, a VIF (*Virtual
 network InterFace*) is the API representation of a network device inside
 a VM. Whereas VBDs associate VM objects with VDI objects, VIFs associate
 VM objects with Network objects. Just like VBDs, VIFs have a
-`currently_attached` field that determines whether or not the network
+[`currently_attached`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-vif) field that determines whether or not the network
 device (inside the guest) associated with the VIF is currently active or
 not. And as we saw with VBDs, at VM boot-time the VIFs of the VM are
 queried and a corresponding network device for each created inside the
-booting VM. Similarly, VIFs also have `plug` and `unplug` methods for hot plugging/unplugging network devices in/out of
+booting VM. Similarly, VIFs also have [`unplug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-plug_3) and [`unplug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-unplug_3) methods for hot plugging/unplugging network devices in/out of
 running VMs.
 
 ### Host configuration for networking and storage
@@ -491,12 +490,12 @@ running VMs.
 We have seen that the VBD and VIF classes are used to manage
 configuration of block devices and network devices (respectively) inside
 VMs. To manage host configuration of storage and networking there are
-two analogous classes: PBD (*Physical Block Device*) and PIF (*Physical
-\[network\] InterFace*).
+two analogous classes: PBD (Physical Block Device) and PIF (Physical
+\[network\] Interface).
 
 #### Host storage configuration: PBDs
 
-Let us start by considering the PBD class. A `PBD_create()` call takes a
+Let us start by considering the PBD class. A [`PBD.create()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_10) call takes a
 number of parameters including:
 
 |  Parameter                     |  Description                                                                               |
@@ -508,8 +507,7 @@ number of parameters including:
 For example, imagine we have an SR object *s* of type "nfs"
 (representing a directory on an NFS filer within which VDIs are stored
 as VHD files); and let's say that we want a host, *h*, to be able to
-access *s*. In this case we invoke `PBD.create()` specifying host *h*, SR *s*, and a value for the
-*device\_config* parameter that is the following map:
+access *s*. In this case we invoke [`PBD.create()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-create_10) specifying host *h*, SR *s*, and a value for the *device_config* parameter that is the following map:
 
 `("server", "my_nfs_server.example.com"), ("serverpath", "/scratch/mysrs/sr1")`
 
@@ -517,8 +515,8 @@ This tells the Citrix Hypervisor server that SR *s* is accessible on host
 *h*, and further that to access SR *s*, the host needs to mount the
 directory `/scratch/mysrs/sr1` on the NFS server named `my_nfs_server.example.com`.
 
-Like VBD objects, PBD objects also have a field called `currently_attached`. Storage repositories can be attached
-and detached from a given host by invoking `PBD.plug` and `PBD.unplug`
+Like VBD objects, PBD objects also have a field called [`currently_attached`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-pbd). Storage repositories can be attached
+and detached from a given host by invoking [`PBD.plug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-plug) and [`PBD.unplug`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-unplug)
 methods respectively.
 
 #### Host networking configuration: PIFs
@@ -530,7 +528,7 @@ the network corresponding to *n* is bridged onto a physical interface
 PIF object.
 
 For example, imagine a PIF object exists connecting host *h* to a
-network *n*, and that `device` field of the PIF object is set to `eth0`.
+network *n*, and that [`device`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-pif) field of the PIF object is set to `eth0`.
 This means that all packets on network *n* are bridged to the NIC in the
 host corresponding to host network device `eth0`.
 
@@ -676,26 +674,13 @@ devices which look like the following:
 
 The attributes have the following meanings:
 
-**device**
+-  **device** -  name of the physical device to expose to the VM. For Linux guests we use "sd\[a-z\]" and for windows guests we use "hd\[a-d\]".
 
--  name of the physical device to expose to the VM. For linux guests we
-    use "sd\[a-z\]" and for windows guests we use "hd\[a-d\]".
+-  **function** -  if marked as "root", this disk will be used to boot the guest. (NB this does not imply the existence of the Linux root i.e. / filesystem.) Only one device should be marked as "root". See Section 3.4 describing VM booting. Any other string is ignored.
 
-**function**
+-  **mode** -  either "w" or "ro" if the device is to be read/write or read-only
 
--  if marked as "root", this disk will be used to boot the guest. (NB
-    this does not imply the existence of the Linux root i.e. /
-    filesystem) Only one device should be marked as "root". See Section
-    3.4 describing VM booting. Any other string is ignored.
-
-**mode**
-
--  either "w" or "ro" if the device is to be read/write or read-only
-
-**vdi**
-
--  the name of the disk image (represented by a &lt;vdi&gt; element) to
-    which this block device is connected
+-  **vdi** - the name of the disk image (represented by a &lt;vdi&gt; element) to  which this block device is connected
 
 Each &lt;vm&gt; may have an optional &lt;hacks&gt; section like the
 following: &lt;hacks is\_hvm="false"

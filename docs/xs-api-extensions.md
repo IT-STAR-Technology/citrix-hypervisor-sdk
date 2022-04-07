@@ -61,17 +61,17 @@ purpose. RFB 3.3 is the minimum version which viewers must support.
 VNC consoles are retrieved using a special URL passed through to the
 host agent. The sequence of API calls is as follows:
 
-1.  Client to Master/443: RPC: `Session.login_with_password()`.
+1.  Client to Master/443: RPC: [`Session.login_with_password()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-loginwithpassword).
 
 2.  Master/443 to Client: Returns a session reference to be used with
     subsequent calls.
 
-3.  Client to Master/443: RPC: `VM.get_by_name_label()`.
+3.  Client to Master/443: RPC: [`VM.get_by_name_label()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-getbynamelabel_15).
 
 4.  Master/443 to Client: Returns a reference to a particular VM (or the
     "control domain" if you want to retrieve the physical host console).
 
-5.  Client to Master/443: RPC: `VM.get_consoles()`.
+5.  Client to Master/443: RPC: [`VM.get_consoles()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-getconsoles).
 
 6.  Master/443 to Client: Returns a list of console objects associated
     with the VM.
@@ -84,7 +84,7 @@ host agent. The sequence of API calls is as follows:
     or `https://192.168.0.1/console?uuid=026e34fe-f0f2-20ee-5344-46d1aa922d5b`
 
 9.  Client to 192.168.0.1: HTTP CONNECT "/console?ref=(...)". You will
-    also need to pass in "session_id=<session reference>" as a cookie.
+    also need to pass in "session_id=&lt;session reference&gt;" as a cookie.
 
 The final HTTP CONNECT is slightly non-standard since the HTTP/1.1 RFC
 specifies that it should only be a host and a port, rather than a URL.
@@ -146,40 +146,13 @@ that the text console is directly used for heavy I/O operations.
 Instead, connect to the guest over SSH or some other network-based
 connection mechanism.
 
-## Paravirtual Linux installation
-
-The installation of paravirtual Linux guests is complicated by the fact
-that a Xen-aware kernel must be booted, rather than simply installing
-the guest using hardware-assistance. This does have the benefit of
-providing near-native installation speed due to the lack of emulation
-overhead. Citrix Hypervisor supports the installation of several different
-Linux distributions, and abstracts this process as much as possible.
-
-To this end, a special bootloader known as `eliloader` is present in the
-control domain which reads various `other-config` keys in the VM record
-at start time and performs distribution-specific installation behavior.
-
--  `install-repository` - Required. Path to a repository; 'http',
-    'https', 'ftp', or 'nfs'. Should be specified as would be used by
-    the target installer, but not including prefixes, for example,  method=.
-
--  `install-vnc` - Default: false. Use VNC where available during the
-    installation.
-
--  `install-vncpasswd` - Default: empty. The VNC password to use, when
-    providing one is possible using the command-line of the target
-    distribution.
-
--  `install-round` - Default: 1. The current bootloader round. Not to
-    be edited by the user.
-
 ## Adding xenstore entries to VMs
 
 Developers may wish to install guest agents into VMs which take special
 action based on the type of the VM. In order to communicate this
-information into the guest, a special Xenstore name-space known as
+information into the guest, a special xenstore name-space known as
 `vm-data` is available which is populated at VM creation time. It is
-populated from the `xenstore-data` map in the VM record.
+populated from the [`xenstore-data`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-vm) map in the VM record.
 
 Set the `xenstore-data` parameter in the VM record:
 
@@ -187,7 +160,7 @@ Set the `xenstore-data` parameter in the VM record:
 
 Start the VM.
 
-If it is a Linux-based VM, install the Citrix VM Tools and use the `xenstore-read` to verify that the node exists in xenstore.
+If it is a Linux-based VM, install the Citrix VM Tools and use the command `xenstore-read` to verify that the node exists in xenstore.
 
 > **Note**
 >
@@ -315,13 +288,13 @@ indicating how their names may be internationalized.
 
 Additionally, `other_config["i18n-original-value-<field name>"]` gives
 the value of that field when the SR was created. If XenCenter sees
-a record where `SR.name_label` equals `other_config["i18n-original-value-name_label"]` (that is, the record has not changed since it was created during
+a record where [`SR.name_label`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-sr) equals `other_config["i18n-original-value-name_label"]` (that is, the record has not changed since it was created during
 Citrix Hypervisor installation), then internationalization will be applied.
 In other words, XenCenter will disregard the current contents of
 that field, and instead use a value appropriate to the user's own
 language.
 
-If you change `SR.name_label` for your own purpose, then it no longer is
+If you change [`SR.name_label`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#fields-for-class-sr) for your own purpose, then it no longer is
 the same as `other_config["i18n-original-value-name_label"]`. Therefore,
 XenCenter does not apply internationalization, and instead
 preserves your given name.

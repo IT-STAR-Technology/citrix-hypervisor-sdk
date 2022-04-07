@@ -40,8 +40,8 @@ RRDs are also backed up every day.
 > **Warning**
 >
 > In earlier versions of the Citrix Hypervisor Management API, instantaneous
-> performance metrics could be obtained using the `VM_metrics`,
-> `VM_guest_metrics`, `host_metrics` methods and associated methods.
+> performance metrics could be obtained using the [`VM_metrics`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vmmetrics),
+> [`VM_guest_metrics`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vmguestmetrics), [`host_metrics`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-hostmetrics) classes and associated methods.
 > These methods has been deprecated in favor of using the http handler
 > described in this chapter to download the statistics from the RRDs on
 > the VMs and servers. Note that by default the legacy metrics will
