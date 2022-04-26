@@ -5,7 +5,7 @@ site_url: https://developer-docs.citrix.com
 
 # Copyright
 
-copyright: '&copy; 1999-2021 Citrix Systems, Inc. All rights reserved. '
+copyright: '&copy; 1999-2022 Citrix Systems, Inc. All rights reserved. '
 
 # Feedback
 
@@ -23,15 +23,15 @@ extra_css:
 theme:
   name: null
   custom_dir: devdocs-theme
-  
+
   # 404 page
   static_templates:
     - 404.html
-  
+
   # Don't include MkDocs' JavaScript
   include_search_page: false
   search_index_only: true
-  
+
   # Default values, taken from mkdocs_theme.yml
   language: en
 

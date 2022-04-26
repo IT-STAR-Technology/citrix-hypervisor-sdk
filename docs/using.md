@@ -33,7 +33,7 @@ API calls can be issued over two transports:
 
 Switching from the XML-RPC to the JSON-RPC backend can be done by adding the suffix `/jsonrpc` to the host URL path.
 
-The SSL-encrypted TCP transport is used for all off-host traffic while the Unix domain socket can be used from services running directly on the Citrix Hypervisor server itself. In the SSL-encrypted TCP transport, all API calls should be directed at the Resource Pool master; failure to do so will result in the error `HOST_IS_SLAVE`, which includes the IP address of the master as an error parameter.
+The SSL-encrypted TCP transport is used for all off-host traffic while the Unix domain socket can be used from services running directly on the Citrix Hypervisor server itself. In the SSL-encrypted TCP transport, all API calls should be directed at the Resource Pool master; failure to do so will result in the error [`HOST_IS_SLAVE`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen-errors/#hostisslave), which includes the IP address of the master as an error parameter.
 
 Because the master host of a pool can change, especially if HA is enabled on a pool, clients must implement the following steps to detect a master host change and connect to the new master as required:
 
@@ -43,7 +43,7 @@ Because the master host of a pool can change, especially if HA is enabled on a p
 
 1.  If the connection to the pool master fails to respond, attempt to connect to all hosts in the list until one responds
 
-1.  The first host to respond will return the `HOST_IS_SLAVE` error message, which contains the identity of the new pool master (unless of course the host is the new master)
+1.  The first host to respond will return the [`HOST_IS_SLAVE`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen-errors/#hostisslave) error message, which contains the identity of the new pool master (unless of course the host is the new master)
 
 1.  Connect to the new master
 
@@ -56,8 +56,8 @@ Because the master host of a pool can change, especially if HA is enabled on a p
 
 The vast majority of API calls take a session reference as their first
 parameter; failure to supply a valid reference will result in a
-`SESSION_INVALID` error being returned. Acquire a session reference by
-supplying a username and password to the `login_with_password` function.
+[`SESSION_INVALID`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen-errors/#sessioninvalid) error being returned. Acquire a session reference by
+supplying a username and password to the [`login_with_password`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-loginwithpassword) function.
 
 > **Note**
 >
@@ -76,7 +76,7 @@ hours are also removed. Therefore it is important to:
 
 -  Remember to log out of active sessions to avoid leaking them; and
 
--  Be prepared to log in again to the server if a `SESSION_INVALID`
+-  Be prepared to log in again to the server if a [`SESSION_INVALID`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen-errors/#sessioninvalid
     error is caught.
 
 > **Note** A session reference obtained by a login request to the XML-RPC backend can be used in subsequent requests to the JSON-RPC backend, and vice-versa.
@@ -155,14 +155,14 @@ the call does not return until the VM has started booting.
 
 > **Note**
 >
-> When the `VM.start` call returns the VM will be booting. To determine
+> When the [`VM.start`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-start) call returns the VM will be booting. To determine
 > when the booting has finished, wait for the in-guest agent to report
-> internal statistics through the `VM_guest_metrics` object.
+> internal statistics through the [`VM_guest_metrics`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#class-vmguestmetrics) object.
 
 ### Using Tasks to manage asynchronous operations
 
 To simplify managing operations which take quite a long time (for example,
-`VM.clone` and `VM.copy`) functions are available in two forms:
+[`VM.clone`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-clone_1) and [`VM.copy`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-copy_1)) functions are available in two forms:
 synchronous (the default) and asynchronous. Each asynchronous function
 returns a reference to a task object which contains information about
 the in-progress operation including:
@@ -175,7 +175,7 @@ the in-progress operation including:
 
 -  the result or error code returned by the operation
 
-An application which wanted to track the progress of a `VM.clone`
+An application which wanted to track the progress of a [`VM.clone`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-clone_1)
 operation and display a progress bar would have code like the following:
 
 ```python
@@ -212,16 +212,16 @@ Events also contain a monotonically increasing ID, the name of the class
 of object and a snapshot of the object state equivalent to the result of
 a `get_record()`.
 
-Clients register for events by calling `event.register()` with a list of
+Clients register for events by calling [`event.register()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-register) with a list of
 class names or the special string "\*". Clients receive events by
-executing `event.next()` which blocks until events are available and
+executing [`event.next()`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-next) which blocks until events are available and
 returns the new events.
 
 > **Note**
 >
 > Since the queue of generated events on the server is of finite length
 > a very slow client might fail to read the events fast enough; if this
-> happens an `EVENTS_LOST` error is returned. Clients should be prepared
+> happens an [`EVENTS_LOST`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen-errors/#eventslost) error is returned. Clients should be prepared
 > to handle this by re-registering for events and checking that the
 > condition they are waiting for hasn't become true while they were
 > unregistered.
@@ -324,9 +324,8 @@ Each VM is then moved using live migration to the new host under this
 rotation (i.e. a VM running on host at position 2 in the list will be
 moved to the host at position 1 in the list etc.) In order to execute
 each of the movements in parallel, the asynchronous version of the
-`VM.pool_migrate` is used and a list of task references constructed.
-Note the `live` flag passed to the `VM.pool_migrate`; this causes the VMs to be moved while they
-are still running.
+[`VM.pool_migrate`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-poolmigrate_1) is used and a list of task references constructed.
+Note the `live` flag passed to the [`VM.pool_migrate`](/projects/citrix-hypervisor-management-api/en/latest/api-ref-autogen/#rpc-name-poolmigrate_1); this causes the VMs to be moved while they are still running.
 
     tasks = []
         for i in range(0, len(vms)):
